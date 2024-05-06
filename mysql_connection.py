@@ -41,8 +41,7 @@ class DatabaseConnection:
                 words = file.readlines()
                 for word in words:
                     word = word.strip()
-                    sorted_word = ''.join(sorted(word))
-                    # Insert word and its sorted version into the database
+                    # Insert word into the database
                     self.execute("INSERT INTO words (word) VALUES (%s)", (word,))
                 self.commit()
                 print("Words inserted into the database successfully.")
@@ -60,6 +59,12 @@ class DatabaseConnection:
             return self.cursor.fetchall()
         except mysql.connector.Error as e:
             print("Error fetching data:", e)
+
+    def fetchone(self):
+        try:
+            return self.cursor.fetchone()
+        except mysql.connector.Error as e:
+            print("Error fetching one row:", e)
 
     def commit(self):
         try:

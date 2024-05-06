@@ -12,27 +12,29 @@ user = os.getenv("DB_USER")
 db_password = os.getenv("DB_PASSWORD")
 database = os.getenv("DB_DATABASE")
 
+
 # Establish database connection
-db_connection = DatabaseConnection(host, database, user, db_password)
+def open_connection_mysql_database():
+    return DatabaseConnection(host, database, user, db_password)
 
 
 @app.route("/api/v1/similar", methods=["GET"])
 def get_similar_words():
     word = request.args.get("word")
-    table_created = db_connection.create_table()
-
+    connection = open_connection_mysql_database()
+    table_created = connection.create_table()
     # Only insert words if the table was created
     if table_created:
         print("Starting insert dataset to the table...")
-        db_connection.insert_words_from_file("./words_dataset.txt")
+        connection.insert_words_from_file("./words_dataset.txt")
 
     # Find anagrams
     print("Finding anagrams...")
-    anagrams = find_anagrams(db_connection, word)
+    anagrams = find_anagrams(connection, word)
 
     # Close connection
     print("Closing database connection...")
-    db_connection.close()
+    connection.close()
 
     # Return JSON response
     return jsonify({"similar": anagrams if anagrams else False})
@@ -42,6 +44,7 @@ def get_similar_words():
 def add_word():
     try:
         # Get the word to add from the request body
+        connection = open_connection_mysql_database()
         data = request.json
         word = data.get("word")
 
@@ -50,14 +53,14 @@ def add_word():
             return jsonify({"error": "Word is missing in the request body"}), 400
 
         # Check if the word already exists in the database
-        db_connection.execute("SELECT COUNT(*) FROM words WHERE word = %s", (word,))
-        count = db_connection.fetchone()[0]
+        connection.execute("SELECT COUNT(*) FROM words WHERE word = %s", (word,))
+        count = connection.fetchone()[0]
         if count > 0:
             return jsonify({"error": "Word already exists in the database"}), 400
 
         # Insert the word into the database
-        db_connection.execute("INSERT INTO words (word) VALUES (%s)", (word,))
-        db_connection.commit()
+        connection.execute("INSERT INTO words (word) VALUES (%s)", (word,))
+        connection.commit()
 
         return jsonify({"message": "Word added successfully"}), 200
 
