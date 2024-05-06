@@ -14,14 +14,13 @@ database = os.getenv("DB_DATABASE")
 
 
 # Establish database connection
-def open_connection_mysql_database():
-    return DatabaseConnection(host, database, user, db_password)
+connection = DatabaseConnection(host, database, user, db_password)
 
 
 @app.route("/api/v1/similar", methods=["GET"])
 def get_similar_words():
     word = request.args.get("word")
-    connection = open_connection_mysql_database()
+    # connection = open_connection_mysql_database()
     table_created = connection.create_table()
     # Only insert words if the table was created
     if table_created:
@@ -32,9 +31,9 @@ def get_similar_words():
     print("Finding anagrams...")
     anagrams = find_anagrams(connection, word)
 
-    # Close connection
-    print("Closing database connection...")
-    connection.close()
+    # # Close connection
+    # print("Closing database connection...")
+    # connection.close()
 
     # Return JSON response
     return jsonify({"similar": anagrams if anagrams else False})
@@ -44,7 +43,6 @@ def get_similar_words():
 def add_word():
     try:
         # Get the word to add from the request body
-        connection = open_connection_mysql_database()
         data = request.json
         word = data.get("word")
 
@@ -67,6 +65,13 @@ def add_word():
     except Exception as e:
         print("Error adding word to database:", e)
         return jsonify({"error": "Failed to add word to database"}), 400
+
+
+@app.route("/close-connection", methods=["POST", "GET"])
+def close_connection():
+    print("Closing database connection...")
+    connection.close()
+    return jsonify({"message": "Database connection closed"}), 200
 
 
 if __name__ == "__main__":
