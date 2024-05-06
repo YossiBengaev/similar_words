@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Similarity Check</title>
+</head>
+<body>
+    <h1>Check Word Similarity</h1>
+    <form method="POST">
+        <label for="word1">Word 1:</label>
+        <input type="text" id="word1" name="word1" value="{{ word1 }}">
+        <br>
+        <label for="word2">Word 2:</label>
+        <input type="text" id="word2" name="word2" value="{{ word2 }}">
+        <br>
+        <button type="submit">Check</button>
+    </form>
+    {% if result %}
+        <p>The words "{{ word1 }}" and "{{ word2 }}" are {{ result }} similar.</p>
+    {% else %}
+        <p>The words "{{ word1 }}" and "{{ word2 }}" are different.</p>
+    {% endif %}
+</body>
+</html>
