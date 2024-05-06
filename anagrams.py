@@ -18,3 +18,4 @@ def find_anagrams(db_connection, word):
     anagrams = [row[0] for row in db_connection.fetchall()]
     print("Found anagrams:", anagrams)
     return anagrams
+

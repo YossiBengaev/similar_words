@@ -25,7 +25,8 @@ class DatabaseConnection:
             # Create the 'words' table if it doesn't exist
             query = """
             CREATE TABLE words (
-                word VARCHAR(255) NOT NULL
+                word VARCHAR(255) NOT NULL,
+                sorted_word VARCHAR(255) NOT NULL
             );
             """
             self.execute(query)

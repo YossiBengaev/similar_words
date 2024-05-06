@@ -1,0 +1,27 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to the Home Page</h1>
+    <p>This page provides an explanation of the routes in the Flask application:</p>
+        <h2>/api/v1/similar?word=XXX GET:</h2>
+        <p> Find similar words for given word</p>
+        <h2>/api/v1/add-word - POST:</h2>
+        <p>Add a word to the dictionary
+            The request body should be a JSON object as follows:
+        {
+            "word":"[word_to_add]>"
+        }
+        </p>
+        <h2>/api/v1/stats - GET:</h2>
+        <p>Get general statistics about the word querying</p>
+        <h2>/close-connection - POST:</h2>
+        <p>Close the database connection</p>
+<img src="{{ url_for('static', filename='Matzov-unit-photo.png') }}" alt="matzov" width="460" height="345">
+</body>
+</html>
