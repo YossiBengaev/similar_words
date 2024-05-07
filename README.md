@@ -42,4 +42,5 @@ return general statistics about the word querying(about the `/api/v1/similar` en
 - Total number of words in the dictionary
 - Total number of requests to the `/api/v1/similar` endpoint.
 
-
+#### GET /home or /
+return the home page of the project.
