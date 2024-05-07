@@ -5,8 +5,8 @@ The Similar Words is a backend application that provides an API for querying sim
 Two words are considered similar if one is a letter permutation of the other.
 
 ## Installation and Setup:
-#### Clone the repository: git clone <repository-url>
-#### Navigate to the project directory: cd <project-directory>
+#### Clone the repository: git clone "<repository-url>"
+#### Navigate to the project directory: cd "<project-directory>"
 #### Make sure you have docker and docker compose on you system.
 #### Set up environment variables by creating a .env file in the project directory and providing the required values:
 - ROOT_PASSWORD=<root_password>
@@ -25,7 +25,7 @@ $ docker build -t <image_name_of_flask_app> .
 $ docker compose up -d
 
 ## API Endpoints
-#### GET /api/v1/similar?word=<your-word>
+#### GET /api/v1/similar?word="<your-word>"
 Returns all words in the dictionary in JSON format that have the same permutation as the provided word.
 The word in the query is not included in the response.
 
