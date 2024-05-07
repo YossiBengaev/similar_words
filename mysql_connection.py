@@ -42,10 +42,11 @@ class DatabaseConnection:
                 words = file.readlines()
                 for word in words:
                     word = word.strip()
-                    # Insert word into the database
-                    self.execute("INSERT INTO words (word) VALUES (%s)", (word,))
+                    sorted_word = ''.join(sorted(word))
+                    self.execute("INSERT INTO words (word, sorted_word) VALUES (%s, %s)",
+                                 (word, sorted_word))
                 self.commit()
-                print("Words inserted into the database successfully.")
+                print("Word and sorted words inserted into the database successfully.")
         except Exception as e:
             print("Error inserting words into the database:", e)
 

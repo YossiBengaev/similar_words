@@ -1,6 +1,6 @@
 import os
-from flask import Flask, render_template, request, jsonify
-from anagrams import find_anagrams
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+from permutation import find_permutation
 from mysql_connection import DatabaseConnection
 from dotenv import load_dotenv
 load_dotenv()
@@ -28,13 +28,11 @@ def get_similar_words():
         if table_created:
             print("Starting insert dataset to the table...")
             connection.insert_words_from_file("./words_dataset.txt")
-
-        # Find anagrams
-        print("Finding anagrams...")
-        anagrams = find_anagrams(connection, word)
+        print("Finding permutation...")
+        permutation = find_permutation(connection, word)
 
         # Return JSON response
-        return jsonify({"similar": anagrams if anagrams else False})
+        return jsonify({"similar": permutation if permutation else False})
     else:
         return jsonify({"error": "Word parameter is missing"}), 400
 
@@ -84,6 +82,11 @@ def close_connection():
     print("Closing database connection...")
     connection.close()
     return jsonify({"message": "Database connection closed"}), 200
+
+
+@app.route("/")
+def root():
+    return redirect(url_for("home"))
 
 
 @app.route("/home")
